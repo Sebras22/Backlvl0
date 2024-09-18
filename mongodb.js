@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 
 const url = "mongodb://localhost:27017";
 const client = new MongoClient(url);
@@ -17,4 +17,11 @@ export const addTaskToDb = async (name, description) => {
         createdAt: new Date(),
     };
     return await collection.insertOne(newTask);
+};
+
+export const deleteTaskToDb = async (_id) => {
+    console.log("delete hit with id:", _id);
+    return await collection.deleteOne({
+        _id: ObjectId.createFromHexString(_id),
+    });
 };

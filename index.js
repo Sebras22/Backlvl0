@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { getCollection, addTaskToDb } from "./mongodb.js";
+import { getCollection, addTaskToDb, deleteTaskToDb } from "./mongodb.js";
 
 const app = express();
 const port = 3000;
@@ -10,6 +10,13 @@ app.use(cors());
 
 app.get("/task", async (req, res) => {
     res.json(await getCollection());
+});
+
+app.delete("/task/:id", async (req, res) => {
+    res.json({
+        result: await deleteTaskToDb(req.params.id),
+        newData: await getCollection(),
+    });
 });
 
 app.post("/new", async (req, res) => {
